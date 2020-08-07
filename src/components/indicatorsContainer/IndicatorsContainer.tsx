@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, memo } from 'react';
-import Animated from 'react-native-reanimated';
+import Animated, {interpolate} from 'react-native-reanimated';
 import Indicator from '../indicator';
 import { IndicatorsContainerProps } from '../../types';
 import { styles } from './styles';
@@ -58,7 +58,14 @@ const IndicatorsContainerComponent = ({
   );
 
   return (
-    <Animated.View style={containerStyle}>{renderIndicators()}</Animated.View>
+    <Animated.View style={[containerStyle, {
+      opacity : interpolate(animatedIndex, {
+        inputRange : [0, 4, 5],
+        outputRange : [1,1,0]
+      })
+    }]}>
+      {renderIndicators()}
+    </Animated.View>
   );
 };
 
