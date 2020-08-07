@@ -3,6 +3,7 @@ import { Dimensions, Insets, LayoutChangeEvent } from 'react-native';
 import { usePanGestureHandler, useValue } from 'react-native-redash';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // @ts-ignore 😞
 import isEqual from 'lodash.isequal';
 import Background from './components/background';
@@ -58,6 +59,7 @@ const PaperOnboardingComponent = ({
       height: Dimensions.get('window').height,
     }
   );
+
 
   // refs
   const pagesRef = useRef<Array<Animated.View | null>>(data.map(() => null));
@@ -154,13 +156,15 @@ const PaperOnboardingComponent = ({
   //#endregion
 
   // renders
+  const safeAreaBottom = (dimensions.height / dimensions.width < 2 ? 32 : 48)
+
   return (
     <PanGestureHandler {...gestureHandler}>
       <Animated.View onLayout={handleOnLayout} style={styles.container}>
         <Background
           animatedIndex={animatedIndex}
           data={data}
-          safeInsets={safeInsets}
+          safeInsets={{...safeInsets, bottom: safeAreaBottom}}
           screenDimensions={dimensions}
           indicatorSize={indicatorSize}
           animatedIndicatorsContainerPosition={
@@ -192,7 +196,7 @@ const PaperOnboardingComponent = ({
           indicatorSize={indicatorSize}
           indicatorBackgroundColor={indicatorBackgroundColor}
           indicatorBorderColor={indicatorBorderColor}
-          safeInsets={safeInsets}
+          safeInsets={{...safeInsets, bottom : safeAreaBottom}}
         />
 
         <CloseButton
