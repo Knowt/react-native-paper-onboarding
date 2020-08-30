@@ -60,7 +60,7 @@ const IndicatorsContainerComponent = ({
   return (
     <Animated.View style={[containerStyle, {
       opacity : interpolate(animatedIndex, {
-        inputRange : [0, 4, 5],
+        inputRange : [0, 5, 6],
         outputRange : [1,1,0]
       })
     }]}>
